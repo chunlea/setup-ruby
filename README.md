@@ -19,7 +19,7 @@ This action currently supports these versions of MRI, JRuby and TruffleRuby:
 | `truffleruby` | 19.3.0 - 22.2.0, head |
 | `truffleruby+graalvm` | 21.2.0 - 22.2.0, head |
 
-`ruby-debug` is the same as `ruby-head` but with assertions enabled (`-DRUBY_DEBUG=1`).  
+`ruby-debug` is the same as `ruby-head` but with assertions enabled (`-DRUBY_DEBUG=1`).
 On Windows, `mingw` and `mswin` are `ruby-head` builds using the MSYS2/MinGW and the MSVC toolchains respectively.
 
 Preview and RC versions of Ruby might be available too on Ubuntu and macOS (not on Windows).
@@ -132,6 +132,7 @@ and the [condition and expression syntax](https://help.github.com/en/actions/ref
 * engine only like `truffleruby`, uses the latest stable release of that implementation
 * `.ruby-version` reads from the project's `.ruby-version` file
 * `.tool-versions` reads from the project's `.tool-versions` file
+* `system` to use system bundled ruby and skip install
 * If the `ruby-version` input is not specified, `.ruby-version` is tried first, followed by `.tool-versions`
 
 ### Working Directory
@@ -173,8 +174,8 @@ This action provides a way to automatically run `bundle install` and cache the r
 
 Note that any step doing `bundle install` (for the root `Gemfile`) or `gem install bundler` can be removed with `bundler-cache: true`.
 
-This caching speeds up installing gems significantly and avoids too many requests to RubyGems.org.  
-It needs a `Gemfile` (or `$BUNDLE_GEMFILE` or `gems.rb`) under the [`working-directory`](#working-directory).  
+This caching speeds up installing gems significantly and avoids too many requests to RubyGems.org.
+It needs a `Gemfile` (or `$BUNDLE_GEMFILE` or `gems.rb`) under the [`working-directory`](#working-directory).
 If there is a `Gemfile.lock` (or `$BUNDLE_GEMFILE.lock` or `gems.locked`), `bundle config --local deployment true` is used.
 
 To use a `Gemfile` which is not at the root or has a different name, set `BUNDLE_GEMFILE` in the `env` at the job level
@@ -188,7 +189,7 @@ They should be set in the `env` at the job level as shown in the [example](#matr
 To find the correct the environment variable name, see the [Bundler docs](https://bundler.io/man/bundle-config.1.html) or look at `.bundle/config` after running `bundle config --local KEY VALUE` locally.
 You might need to `"`-quote the environment variable name in YAML if it has unusual characters like `/`.
 
-To perform caching, this action will use `bundle config --local path $PWD/vendor/bundle`.  
+To perform caching, this action will use `bundle config --local path $PWD/vendor/bundle`.
 Therefore, the Bundler `path` should not be changed in your workflow for the cache to work (no `bundle config path`).
 
 #### How it Works

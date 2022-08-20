@@ -61,7 +61,10 @@ export async function setupRuby(options = {}) {
     await require('./windows').installJRubyTools()
   }
 
-  const rubyPrefix = await installer.install(platform, engine, version)
+  let rubyPrefix = '/'
+  if (engine !== 'system') {
+    rubyPrefix = await installer.install(platform, engine, version)
+  }
 
   await common.measure('Print Ruby version', async () =>
     await exec.exec('ruby', ['--version']))
